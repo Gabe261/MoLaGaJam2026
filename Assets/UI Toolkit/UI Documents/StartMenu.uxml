@@ -1,0 +1,12 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/GeneralStyles.uss?fileID=7433441132597879392&amp;guid=8aeed796ecde7c8408a7b4f625d080be&amp;type=3#GeneralStyles"/>
+    <ui:VisualElement name="Container" class="grow p-30 reverse-row align-center">
+        <ui:VisualElement name="MenuContainer" class="menu-container-size mr-200 menu-container-format">
+            <ui:Label text="Delivery Bot Game" name="Title" class="title-text-size text-style"/>
+            <ui:VisualElement name="Buttons" class="button-container-format">
+                <ui:Button text="Button" name="StartButton" class="button-style button-text"/>
+                <ui:Button text="Button" name="CreditsButton" class="button-style button-text"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

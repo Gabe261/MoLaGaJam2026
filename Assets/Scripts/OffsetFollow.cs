@@ -6,18 +6,23 @@ using UnityEngine;
 public class OffsetFollow : MonoBehaviour
 {
     [SerializeField] private Transform targetObject;
-    [SerializeField] private Vector3 manuelOffset;
+    [SerializeField] private Vector3 offset;
     
-    private void Start()
+    private bool isInitialized;
+    
+    public void Initialize(Transform target, Vector3 offset)
     {
-        if (manuelOffset == Vector3.zero)
-        {
-            Debug.LogWarning($"Warning: {name} OffsetFollow needs to be set.");
-        }
+        targetObject = target;
+        this.offset = offset;
+        isInitialized = true;
     }
 
     private void LateUpdate()
     {
-        transform.position = targetObject.position + manuelOffset;
+        if (!isInitialized)
+        {
+            return;
+        }
+        transform.position = targetObject.position + offset;
     }
 }

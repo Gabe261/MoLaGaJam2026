@@ -1,10 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Splines;
 
-public class SplineMovementController : MonoBehaviour
+public class PlayerSplineMovement : MonoBehaviour
 {
-    [SerializeField] private SplineAnimate splineAnimator;
+    private SplineAnimate playerSplineAnimator;
+    private bool isInitialized;
+    private bool movementEnabled;
 
     [Header("Speed")]
     [SerializeField] private float maxSpeed = 1.0f;          // max seconds-per-second added to ElapsedTime
@@ -20,15 +23,48 @@ public class SplineMovementController : MonoBehaviour
     private float heldTime;      // how long current direction has been held
     private float currentSpeed;  // signed speed applied each frame
 
+    private void Initialize()
+    {
+        playerSplineAnimator = GetComponent<SplineAnimate>();
+        if(playerSplineAnimator == null) Debug.LogError("PlayerSplineMovement: PlayerSplineAnimator is null");
+
+        movementEnabled = false;
+        isInitialized = true;
+    }
+
+    public SplineAnimate GetPlayerSplineAnimator()
+    {
+        if (!isInitialized) { Initialize(); }
+        return playerSplineAnimator;
+    }
+
+    public void SetSplineContainer(SplineContainer container)
+    {
+        if (!isInitialized) { Initialize(); }
+        playerSplineAnimator.Container = container;
+    }
+    
     public void OnMove(InputAction.CallbackContext ctx)
     {
         moveAxis = ctx.ReadValue<float>(); // -1, 0, 1 (or analog)
     }
 
+    public void EnableMovement()
+    {
+        movementEnabled = true;
+    }
+
+    public void DisableMovement()
+    {
+        movementEnabled = false;
+    }
+    
     private void Update()
     {
+        if(!movementEnabled) return;
+        
         float dt = Time.deltaTime;
-
+        
         // No input: decelerate to 0 and reset held time
         if (Mathf.Abs(moveAxis) < 0.01f)
         {
@@ -60,6 +96,7 @@ public class SplineMovementController : MonoBehaviour
         }
 
         // Apply to your spline time
-        splineAnimator.ElapsedTime += currentSpeed * dt;
+        playerSplineAnimator.ElapsedTime += currentSpeed * dt;
     }
+    
 }

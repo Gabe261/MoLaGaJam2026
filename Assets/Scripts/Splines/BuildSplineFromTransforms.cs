@@ -5,20 +5,19 @@ using UnityEngine.Splines;
 public class BuildSplineFromTransforms : MonoBehaviour
 {
     private SplineContainer container;
-    [SerializeField] private GameObject knotsParent;
+    private GameObject knotsParent;
 
-    private void Awake()
+    private void OnEnable()
     {
         container = GetComponent<SplineContainer>();
-        if (knotsParent == null) { Debug.LogWarning($"{name}: knotsParent is not assigned."); }
     }
     
-    public void CreateSplineFromTransforms()
+    public SplineContainer CreateSplineFromTransforms()
     {
         if (knotsParent == null)
         {
             Debug.LogWarning($"{name}: knotsParent is not assigned.");
-            return;
+            return null;
         }
         
         var spline = new Spline();
@@ -32,5 +31,11 @@ public class BuildSplineFromTransforms : MonoBehaviour
         }
 
         container.Spline = spline;
+        return container;
+    }
+
+    public void SetKnotsParent(GameObject knotsParent)
+    {
+        this.knotsParent = knotsParent;
     }
 }
